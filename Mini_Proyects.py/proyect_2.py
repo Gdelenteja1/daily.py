@@ -1,11 +1,38 @@
-# QUIZ GAME
+import random
+import time
+
+OPERATORS = ["+", "-", "*"]
+MIN_OPERAND = 3
+MAX_OPERAND = 12
+TOTAL_PROBLEMS = 10
 
 
-print("¡Welcome to the Quiz game!")
+def generate_problem():
+    left = random.randint(MIN_OPERAND, MAX_OPERAND)
+    right = random.randint(MIN_OPERAND, MAX_OPERAND)
+    operator = random.choice(OPERATORS)
+
+    expr = str(left) + " " + operator + " " + str(right)
+    answer = eval(expr)
+    return expr, answer
 
 
-welcoming = input("Are you ready for the Quiz Game? (y)\n")
-if welcoming.lower() == "y":
-    print("Good! Lets Begin.")
-else:
-    print("Invalid, try again.")
+wrong = 0
+input("Press enter to start!")
+print("----------------------")
+
+start_time = time.time()
+
+for i in range(TOTAL_PROBLEMS):
+    expr, answer = generate_problem()
+    while True:
+        guess = input("Problem #" + str(i + 1) + ": " + expr + " = ")
+        if guess == str(answer):
+            break
+        wrong += 1
+
+end_time = time.time()
+total_time = round(end_time - start_time, 2)
+
+print("----------------------")
+print("Nice work! You finished in", total_time, "seconds!")
